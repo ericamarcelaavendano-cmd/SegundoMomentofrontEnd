@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios | Institución Educativa</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="brand">INSTITUCIÓN EDUCATIVA</div>
+        <nav class="nav-links">
+            <a href="index.html">Inicio</a>
+            <a href="bienvenido.html">Panel</a>
+            <a href="#">Programas</a>
+            <a href="#">Infraestructura</a>
+        </nav>
+        <a href="iniciosesion.html" class="btn-login-nav" id="btn-cerrar-sesion">Cerrar sesión</a>
+    </header>
+
+    <main class="registro-wrapper">
+        <aside class="registro-sidebar">
+            <div class="sidebar-card">
+                <a href="bienvenido.html" class="btn-volver">← Volver al panel</a>
+                <h2 class="sidebar-title" id="form-titulo">Registrar Usuario</h2>
+                <p class="sidebar-subtitle" id="form-subtitulo">Completa los campos para agregar un nuevo usuario.</p>
+
+                <div class="field-group">
+                    <label for="inp-nombre">Nombre completo</label>
+                    <input type="text" id="inp-nombre" placeholder="Ej: María Pérez">
+                </div>
+                <div class="field-group">
+                    <label for="inp-documento">Documento</label>
+                    <input type="text" id="inp-documento" placeholder="Ej: 1234567890">
+                </div>
+                <div class="field-group">
+                    <label for="inp-correo">Correo electrónico</label>
+                    <input type="email" id="inp-correo" placeholder="Ej: usuario@correo.com">
+                </div>
+                <div class="field-group">
+                    <label for="inp-rol">Rol</label>
+                    <select id="inp-rol">
+                        <option value="">Seleccionar rol...</option>
+                        <option value="Estudiante">Estudiante</option>
+                        <option value="Docente">Docente</option>
+                    </select>
+                </div>
+                <div class="field-group" id="grupo-grado" style="display:none;">
+                    <label for="inp-grado">Grado / Área</label>
+                    <input type="text" id="inp-grado" placeholder="Ej: 10°A / Matemáticas">
+                </div>
+
+                <input type="hidden" id="inp-id-editar" value="">
+
+                <div class="form-actions">
+                    <button id="btn-guardar" class="btn-primary-sm">Guardar</button>
+                    <button id="btn-cancelar" class="btn-secondary-sm" style="display:none;">Cancelar</button>
+                </div>
+                <div id="msg-form" class="status-msg" style="margin-top:12px;font-size:0.85rem;"></div>
+            </div>
+
+            <div class="sidebar-card style-panel">
+                <h3 class="sidebar-title" style="font-size:1rem;">🎨 Panel de Estilo</h3>
+                <p class="sidebar-subtitle">Modifica la apariencia sin recargar la página.</p>
+                <div class="field-group">
+                    <label for="sel-fondo">Color de fondo</label>
+                    <select id="sel-fondo">
+                        <option value="#f4f6f9">Gris claro (por defecto)</option>
+                        <option value="#ffffff">Blanco puro</option>
+                        <option value="#eef4ff">Azul suave</option>
+                        <option value="#f0fdf4">Verde suave</option>
+                        <option value="#fff7ed">Naranja suave</option>
+                    </select>
+                </div>
+                <div class="field-group">
+                    <label for="sel-fuente">Tamaño de texto tabla</label>
+                    <select id="sel-fuente">
+                        <option value="0.85rem">Pequeño</option>
+                        <option value="0.92rem" selected>Normal</option>
+                        <option value="1.02rem">Grande</option>
+                    </select>
+                </div>
+                <div class="field-group">
+                    <label for="sel-tema-tabla">Tema de la tabla</label>
+                    <select id="sel-tema-tabla">
+                        <option value="claro">Claro</option>
+                        <option value="azul">Azul</option>
+                        <option value="verde">Verde</option>
+                    </select>
+                </div>
+                <button id="btn-aplicar-estilo" class="btn-primary-sm" style="margin-top:4px;">Aplicar cambios</button>
+            </div>
+        </aside>
+
+        <section class="registro-main">
+            <div class="tabla-header">
+                <div>
+                    <h2 class="tabla-titulo" id="tabla-titulo">Usuarios Registrados</h2>
+                    <p class="tabla-subtitulo" id="tabla-subtitulo">Gestiona los usuarios de la institución</p>
+                </div>
+                <div class="tabla-controles">
+                    <input type="text" id="inp-buscar" placeholder="🔍 Buscar..." class="input-buscar">
+                    <select id="sel-filtro-rol" class="input-buscar">
+                        <option value="">Todos los roles</option>
+                        <option value="Estudiante">Estudiantes</option>
+                        <option value="Docente">Docentes</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="contadores">
+                <span class="contador-item" id="cnt-total">Total: 0</span>
+                <span class="contador-item est" id="cnt-estudiantes">Estudiantes: 0</span>
+                <span class="contador-item doc" id="cnt-docentes">Docentes: 0</span>
+            </div>
+
+            <div class="tabla-wrapper" id="tabla-wrapper">
+                <table class="tabla-usuarios" id="tabla-usuarios">
+                    <thead>
+                        <tr>
+                            <th>#</th><th>Nombre</th><th>Documento</th>
+                            <th>Correo</th><th>Rol</th><th>Grado / Área</th><th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-usuarios"></tbody>
+                </table>
+                <div id="lista-vacia" class="lista-vacia" style="display:none;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M8 15s1.5-2 4-2 4 2 4 2"/>
+                        <line x1="9" y1="9" x2="9.01" y2="9"/>
+                        <line x1="15" y1="9" x2="15.01" y2="9"/>
+                    </svg>
+                    <p>No hay registros aún.<br>Usa el formulario para agregar el primero.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>2026 | Elaborado por Equipo Integrador</p>
+    </footer>
+    <script src="app.js"></script>
+</body>
+</html>
