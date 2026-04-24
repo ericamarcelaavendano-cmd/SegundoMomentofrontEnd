@@ -1,0 +1,208 @@
+ MANUAL DEL SISTEMA DE GESTIÓN ACADÉMICA
+
+Este proyecto es una plataforma web desarrollada para el Proyecto Integrador 2026.  
+El sistema simula un entorno escolar seguro donde se valida la identidad de los usuarios antes de permitir el acceso al panel de gestión académica, incluyendo el registro, actualización y eliminación de estudiantes y docentes.
+
+ DESCRIPCIÓN GENERAL
+
+El sistema está compuesto por múltiples páginas interconectadas que forman un flujo completo de navegación:
+
+index.html → iniciosesion.html → bienvenido.html → registro.html
+
+
+Cada página cumple un rol específico dentro de la aplicación y comparte un único archivo de estilos y lógica JavaScript, garantizando coherencia visual y funcional en todo el proyecto.
+
+
+FUNCIONALIDADES PRINCIPALES
+
+ Portal Institucional
+Página de inicio (`index.html`) con navegación institucional, hero image, estadísticas dinámicas y tarjetas informativas sobre programas, historia e infraestructura.
+
+ Autenticación por Arreglos
+El sistema no solo valida un usuario, sino que recorre una lista de cuentas registradas mediante un bucle `for`. Esto permite gestionar múltiples usuarios de forma organizada y escalable.
+
+ Seguridad y Bloqueo
+Control estricto de intentos (máximo 3). Si se agotan, el botón de acceso se deshabilita automáticamente y se muestra un mensaje de bloqueo en pantalla.
+
+ Panel de Bienvenida
+Página de bienvenida (`bienvenido.html`) que muestra el nombre del usuario activo, un resumen en tiempo real del sistema y 4 botones de acceso rápido a las funciones principales.
+
+Gestión de Usuarios — CRUD Completo
+Módulo completo de administración (`registro.html`) que permite:
+- Crear nuevos estudiantes y docentes
+-Leer y visualizar la lista completa en tabla dinámica
+-Actualizar información de cualquier registro
+-Eliminar usuarios con confirmación previa
+
+Buscador en Tiempo Real
+Filtrado dinámico por nombre, documento o correo, combinado con filtro por rol (Estudiante / Docente), sin necesidad de recargar la página.
+
+ Panel de Estilos Dinámico
+Herramienta que permite modificar la apariencia de la interfaz en tiempo real: color de fondo, tamaño de fuente y tema de la tabla, todo mediante manipulación directa del DOM.
+
+ Persistencia de Datos
+Todos los registros se almacenan en `localStorage`, garantizando que la información persista entre sesiones sin necesidad de base de datos.
+
+ Diseño Profesional
+Interfaz en tema claro (blanco y gris) con acentos en azul institucional, diseñada para una experiencia de usuario moderna, limpia y responsiva.
+
+
+TECNOLOGÍAS UTILIZADAS
+
+| HTML | Estructura semántica de todas las páginas |
+| CSS| Estilos globales, variables nativas (`:root`), Flexbox y diseño responsivo |
+| JavaScript | Lógica de programación, manipulación del DOM, eventos y CRUD completo |
+| localStorage| Persistencia de datos entre páginas y sesiones |
+| URLSearchParams | Lectura de parámetros en la URL para configurar vistas dinámicamente |
+
+
+
+ ESTRUCTURA DEL PROYECTO
+
+
+proyecto-institucional/
+ ├──  index.html           → Página de inicio institucional
+ ├──  iniciosesion.html    → Formulario de autenticación
+ ├── bienvenido.html      → Panel de bienvenida y acceso rápido
+ ├── registro.html        → Módulo CRUD de estudiantes y docentes
+ ├── styles.css           → Estilos unificados de todo el proyecto
+ └── app.js            → Lógica JavaScript completa
+
+
+ EXPLICACIÓN TÉCNICA — LÓGICA DE PROGRAMACIÓN
+
+1. Estructuras de Datos (Arrays y Objetos)
+En lugar de variables simples, se implementó un **Array de Objetos** tanto para los usuarios autorizados como para los registros del sistema. Esto permite que el sistema sea escalable, pudiendo almacenar múltiples usuarios con sus respectivas propiedades de forma organizada.
+
+javascript
+const usuariosRegistrados = [
+    { usuario: "erica@gruporoldan.com.co", clave: "2146" },
+    { usuario: "profesor@inst.edu.co",     clave: "1234" }
+];
+
+
+ 2. Bucle Iterativo (`for`)
+Es el corazón de la validación de acceso. El sistema utiliza un ciclo `for` para recorrer cada posición del arreglo:
+
+- **Funcionamiento: compara el correo y la clave ingresados contra cada registro de la lista.
+- Sentencia `break`:  se incluyó para optimizar el rendimiento; una vez encontrada la coincidencia, el ciclo se detiene inmediatamente evitando trabajo innecesario.
+
+javascript
+for (let i = 0; i < usuariosRegistrados.length; i++) {
+    if (userIn === usuariosRegistrados[i].usuario &&
+        passIn === usuariosRegistrados[i].clave) {
+        accesoConcedido = true;
+        break;
+    }
+}
+
+
+ 3. Operadores Lógicos y de Comparación
+
+- Operador AND (`&&`): garantiza que tanto el usuario como la contraseña sean correctos simultáneamente.
+- Operador de Identidad (`===`):** asegura que la comparación sea exacta en valor y tipo de dato.
+
+
+4. Variables de Estado (Flags)
+
+- `let accesoConcedido`:** variable booleana que actúa como bandera. Inicia en `false` y solo cambia a `true` si el bucle encuentra una coincidencia válida.
+- `let intentosRealizados`:** contador que aumenta con cada intento fallido para controlar el bloqueo automático.
+- `let modoEdicion`:** indica si el formulario está en modo creación o en modo edición, cambiando el comportamiento del botón guardar.
+
+
+5. Manipulación del DOM
+El proyecto implementa manipulación directa del DOM para actualizar la interfaz en tiempo real sin recargar la página:
+
+| Método | Función en el proyecto |
+| `document.getElementById()` | Selecciona elementos del HTML para leer o modificar |
+| `document.createElement()` | Crea nuevas filas de la tabla dinámicamente |
+| `appendChild()` | Inserta los nuevos nodos como hijos en el DOM |
+| `removeChild()` | Elimina nodos existentes antes de redibujar la tabla |
+| `setAttribute()` | Asigna el `data-id` único a cada fila creada |
+| `innerHTML` | Inyecta el contenido HTML interno de cada fila |
+| `innerText` | Actualiza textos visibles sin recargar la página |
+| `.style` | Modifica estilos CSS directamente desde JavaScript |
+| `classList.add/remove` | Aplica o quita clases CSS para cambiar temas visuales |
+
+
+
+ 6. Eventos (`addEventListener`)
+Toda la interactividad del sistema se maneja mediante escuchadores de eventos:
+
+javascript
+// Clic en botón
+document.getElementById('btn-login').addEventListener('click', validarAcceso);
+
+// Escritura en tiempo real (buscador)
+document.getElementById('inp-buscar').addEventListener('input', filtrarTabla);
+
+// Tecla Enter en los campos
+document.getElementById('email').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') validarAcceso();
+});
+
+
+7. Persistencia con `localStorage`
+Todos los datos del sistema se guardan en el almacenamiento local del navegador, permitiendo que persistan entre páginas y sesiones:
+
+| Clave | Contenido |
+| `sesionActiva` | Indica si hay una sesión iniciada (`'true'`) |
+| `usuarioActual` | Correo del usuario que inició sesión |
+| `usuariosApp` | Lista completa de estudiantes y docentes en formato JSON |
+
+
+8. Parámetros de URL (`URLSearchParams`)
+El sistema utiliza parámetros en la URL para configurar dinámicamente la vista de `registro.html` según el botón presionado en `bienvenido.html`:
+
+
+registro.html?modo=registrar&rol=Estudiante  → Formulario para crear estudiante
+registro.html?modo=actualizar&rol=Docente    → Tabla para editar docente
+
+
+9. Operaciones CRUD Completas
+
+| Operación | Método JavaScript | Descripción |
+
+| Create | `push()` + `localStorage.setItem()` | Agrega nuevo usuario a la lista y lo guarda |
+| Read | `renderizarTabla()` + `forEach()` | Muestra todos los registros en tabla dinámica |
+| Update | `map()` + `localStorage.setItem()` | Modifica un registro existente y actualiza |
+| Delete | `filter()` + `fila.remove()` | Elimina de la lista y remueve la fila del DOM |
+
+
+
+ INSTRUCCIONES DE USO
+
+ Paso 1 — Abrir el proyecto
+Abre el archivo `index.html` en tu navegador. No requiere instalación ni servidor.
+
+ Paso 2 — Iniciar sesión
+Haz clic en el botón "Log in" o "Ingresar al sistema" para ir a la página de autenticación.
+
+Usa una de las siguientes credenciales:
+
+| Usuario | Contraseña |
+| `erica@gruporoldan.com.co` | `2146` |
+| `profesor@inst.edu.co` | `1234` |
+
+>  Después de 3 intentos fallidos el sistema se bloquea automáticamente.
+
+ Paso 3 — Panel de bienvenida
+Al ingresar correctamente serás redirigido a `bienvenido.html` donde encontrarás 4 opciones:
+- Registrar Usuario:  → Formulario para nuevo estudiante
+- Registrar Profesor: → Formulario para nuevo docente
+- Actualizar Usuario: → Tabla para editar estudiante
+- Actualizar Profesor: → Tabla para editar docente
+
+Paso 4 — Gestión de usuarios
+En `registro.html` puedes:
+1. Registrar:  completa el formulario y haz clic en "Guardar"
+2. Editar:  haz clic en "Editar" en cualquier fila de la tabla
+3. Eliminar:  haz clic en "🗑️ Eliminar" y confirma la acción
+4. Buscar: escribe en el buscador para filtrar en tiempo real
+
+Paso 5 — Cerrar sesión
+Haz clic en "Cerrar sesión" en la barra de navegación para salir del sistema de forma segura.
+
+
+
+ Elaborado por Equipo Integrador 
