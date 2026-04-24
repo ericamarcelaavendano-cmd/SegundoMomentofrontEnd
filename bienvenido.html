@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido | Sistema de Gestión</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="brand">INSTITUCIÓN EDUCATIVA</div>
+        <nav class="nav-links">
+            <a href="index.html">Inicio</a>
+            <a href="#">Historia</a>
+            <a href="#">Programas</a>
+            <a href="#">Infraestructura</a>
+        </nav>
+        <a href="iniciosesion.html" class="btn-login-nav" id="btn-cerrar-sesion">Cerrar sesión</a>
+    </header>
+
+    <main class="bienvenido-wrapper">
+
+        <!-- SALUDO DINÁMICO -->
+        <div class="bienvenido-header">
+            <div class="bienvenido-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+            </div>
+            <div>
+                <h1 class="bienvenido-titulo">Bienvenido al Sistema</h1>
+                <p class="bienvenido-subtitulo">Sesión iniciada como: <strong id="usuario-activo">—</strong></p>
+            </div>
+        </div>
+
+        <!-- TARJETAS DE ACCESO -->
+        <div class="acciones-grid">
+
+            <a href="registro.html?modo=registrar&rol=Estudiante" class="accion-card estudiante">
+                <div class="accion-icono">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <line x1="19" y1="8" x2="19" y2="14"/>
+                        <line x1="22" y1="11" x2="16" y2="11"/>
+                    </svg>
+                </div>
+                <h3>Registrar Usuario</h3>
+                <p>Agregar un nuevo estudiante al sistema</p>
+                <span class="accion-badge">Nuevo registro</span>
+            </a>
+
+            <a href="registro.html?modo=registrar&rol=Docente" class="accion-card docente">
+                <div class="accion-icono">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                </div>
+                <h3>Registrar Profesor</h3>
+                <p>Agregar un nuevo docente al sistema</p>
+                <span class="accion-badge">Nuevo registro</span>
+            </a>
+
+            <a href="registro.html?modo=actualizar&rol=Estudiante" class="accion-card actualizar-est">
+                <div class="accion-icono">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                    </svg>
+                </div>
+                <h3>Actualizar Usuario</h3>
+                <p>Editar información de un estudiante</p>
+                <span class="accion-badge">Editar</span>
+            </a>
+
+            <a href="registro.html?modo=actualizar&rol=Docente" class="accion-card actualizar-doc">
+                <div class="accion-icono">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                    </svg>
+                </div>
+                <h3>Actualizar Profesor</h3>
+                <p>Editar información de un docente</p>
+                <span class="accion-badge">Editar</span>
+            </a>
+
+        </div>
+
+        <!-- RESUMEN RÁPIDO -->
+        <div class="resumen-card">
+            <h3 class="resumen-titulo">Resumen del sistema</h3>
+            <div class="resumen-grid">
+                <div class="resumen-item">
+                    <span class="resumen-numero" id="res-estudiantes">0</span>
+                    <span class="resumen-label">Estudiantes</span>
+                </div>
+                <div class="resumen-item">
+                    <span class="resumen-numero" id="res-docentes">0</span>
+                    <span class="resumen-label">Docentes</span>
+                </div>
+                <div class="resumen-item">
+                    <span class="resumen-numero" id="res-total">0</span>
+                    <span class="resumen-label">Total usuarios</span>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="main-footer">
+        <p>2026 | Elaborado por Equipo Integrador</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
